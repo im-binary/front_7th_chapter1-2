@@ -2,6 +2,7 @@ import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
 import { Event, EventForm } from '../types';
+import { addEventPrefix } from '../utils/eventUtils';
 
 export const useEventOperations = (editing: boolean, onSave?: () => void) => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -31,10 +32,15 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
           body: JSON.stringify(eventData),
         });
       } else {
+        const newEventData = {
+          ...eventData,
+          title: addEventPrefix(eventData.title),
+        };
+
         response = await fetch('/api/events', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(eventData),
+          body: JSON.stringify(newEventData),
         });
       }
 

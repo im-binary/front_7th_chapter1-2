@@ -14,7 +14,8 @@
     "build": "tsc -b && vite build",
     "lint:eslint": "eslint . --ext ts,tsx --report-unused-disable-directives",
     "lint:tsc": "tsc --pretty",
-    "lint": "pnpm lint:eslint && pnpm lint:tsc"
+    "lint": "pnpm lint:eslint && pnpm lint:tsc",
+    "agent:run": "tsx agents/cli.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -52,6 +53,7 @@
     "eslint-plugin-vitest": "^0.5.4",
     "globals": "16.3.0",
     "jsdom": "^26.1.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.2.2",
     "vite": "^7.0.2",
     "vite-plugin-eslint": "^1.8.1",

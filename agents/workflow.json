@@ -1,0 +1,57 @@
+{
+  "name": "TDD Feature Development Workflow",
+  "description": "AI 에이전트 팀이 협업하여 TDD로 기능을 개발하는 워크플로우",
+  "agents": [
+    {
+      "type": "feature-selector",
+      "enabled": true,
+      "timeout": 60000,
+      "retries": 2,
+      "continueOnError": false,
+      "description": "요구사항을 분석하고 구현 가능한 기능으로 분해"
+    },
+    {
+      "type": "test-designer",
+      "enabled": true,
+      "timeout": 60000,
+      "retries": 2,
+      "continueOnError": false,
+      "description": "기능 명세를 바탕으로 테스트 케이스 설계"
+    },
+    {
+      "type": "test-writer",
+      "enabled": true,
+      "timeout": 120000,
+      "retries": 2,
+      "continueOnError": false,
+      "description": "실패하는 테스트 코드 작성 (RED 단계)"
+    },
+    {
+      "type": "test-validator",
+      "enabled": true,
+      "timeout": 180000,
+      "retries": 3,
+      "continueOnError": false,
+      "description": "테스트를 통과시키는 최소 구현 (GREEN 단계)"
+    },
+    {
+      "type": "refactoring",
+      "enabled": true,
+      "timeout": 120000,
+      "retries": 2,
+      "continueOnError": true,
+      "description": "코드 품질 개선 및 최적화 (REFACTOR 단계)"
+    }
+  ],
+  "options": {
+    "parallel": false,
+    "stopOnError": true,
+    "saveIntermediateResults": true,
+    "outputDir": "./agents/output"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "author": "Agent Orchestrator",
+    "created": "2025-10-27"
+  }
+}

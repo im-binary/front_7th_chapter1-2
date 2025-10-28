@@ -1195,7 +1195,7 @@ ${codebaseContext.relatedCode}
     _featureOutput: FeatureSelectorOutput
   ): Promise<TestDesignerOutput> {
     console.log('🧪 테스트 케이스 설계 중...');
-
+    console.log(_featureOutput);
     // Feature Selector의 전체 Markdown 읽기
     const featureSelectorMarkdown = await this.getLatestMarkdownResult('feature-selector');
 
@@ -1285,6 +1285,7 @@ ${featureSelectorMarkdown}
    */
   private async runTestWriter(_testDesignOutput: TestDesignerOutput): Promise<TestWriterOutput> {
     console.log('📝 테스트 코드 작성 중...');
+    console.log(_testDesignOutput);
 
     // Feature Selector와 Test Designer의 Markdown 읽기
     const featureSelectorMarkdown = await this.getLatestMarkdownResult('feature-selector');

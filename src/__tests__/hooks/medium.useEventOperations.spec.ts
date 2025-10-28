@@ -67,7 +67,7 @@ it('정의된 이벤트 정보를 기준으로 적절하게 저장이 된다', a
     await result.current.saveEvent(newEvent);
   });
 
-  expect(result.current.events).toEqual([{ ...newEvent, id: '1', title: '새 회의' }]);
+  expect(result.current.events).toEqual([{ ...newEvent, id: '1' }]);
 });
 
 it("새로 정의된 'title', 'endTime' 기준으로 적절하게 일정이 업데이트 된다", async () => {
@@ -170,98 +170,4 @@ it("네트워크 오류 시 '일정 삭제 실패'라는 텍스트가 노출되�
   expect(enqueueSnackbarFn).toHaveBeenCalledWith('일정 삭제 실패', { variant: 'error' });
 
   expect(result.current.events).toHaveLength(1);
-});
-
-describe('일정 제목 접두사 기능', () => {
-  it('신규 일정 생성 시 제목에 접두사가 추가되지 않는다 (접두사 제거됨)', async () => {
-    // Arrange
-    setupMockHandlerCreation();
-    const { result } = renderHook(() => useEventOperations(false));
-    await act(() => Promise.resolve(null));
-
-    const newEvent: Event = {
-      id: '1',
-      title: '팀 회의',
-      date: '2025-10-16',
-      startTime: '11:00',
-      endTime: '12:00',
-      description: '새로운 팀 미팅',
-      location: '회의실 A',
-      category: '업무',
-      repeat: { type: 'none', interval: 0 },
-      notificationTime: 10,
-    };
-
-    // Act
-    await act(async () => {
-      await result.current.saveEvent(newEvent);
-    });
-
-    // Assert
-    expect(result.current.events[0].title).toBe('팀 회의');
-  });
-
-  it('기존 일정 수정 시에는 접두사가 추가되지 않는다', async () => {
-    // Arrange
-    setupMockHandlerUpdating();
-    const { result } = renderHook(() => useEventOperations(true));
-    await act(() => Promise.resolve(null));
-
-    const updatedEvent: Event = {
-      id: '1',
-      title: '수정된 회의',
-      date: '2025-10-15',
-      startTime: '09:00',
-      endTime: '11:00',
-      description: '기존 팀 미팅',
-      location: '회의실 B',
-      category: '업무',
-      repeat: { type: 'none', interval: 0 },
-      notificationTime: 10,
-    };
-
-    // Act
-    await act(async () => {
-      await result.current.saveEvent(updatedEvent);
-    });
-
-    // Assert
-    expect(result.current.events[0].title).toBe('수정된 회의');
-  });
-
-  it('신규 일정 생성 시 title 외의 다른 필드는 변경되지 않는다', async () => {
-    // Arrange
-    setupMockHandlerCreation();
-    const { result } = renderHook(() => useEventOperations(false));
-    await act(() => Promise.resolve(null));
-
-    const newEvent: Event = {
-      id: '1',
-      title: '회의',
-      date: '2025-10-16',
-      startTime: '11:00',
-      endTime: '12:00',
-      description: '설명',
-      location: '회의실 A',
-      category: '업무',
-      repeat: { type: 'daily', interval: 1 },
-      notificationTime: 30,
-    };
-
-    // Act
-    await act(async () => {
-      await result.current.saveEvent(newEvent);
-    });
-
-    // Assert
-    const savedEvent = result.current.events[0];
-    expect(savedEvent.date).toBe('2025-10-16');
-    expect(savedEvent.startTime).toBe('11:00');
-    expect(savedEvent.endTime).toBe('12:00');
-    expect(savedEvent.description).toBe('설명');
-    expect(savedEvent.location).toBe('회의실 A');
-    expect(savedEvent.category).toBe('업무');
-    expect(savedEvent.repeat).toEqual({ type: 'daily', interval: 1 });
-    expect(savedEvent.notificationTime).toBe(30);
-  });
 });

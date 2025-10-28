@@ -31,15 +31,10 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
           body: JSON.stringify(eventData),
         });
       } else {
-        const newEventData = {
-          ...eventData,
-          title: eventData.title.trim(),
-        };
-
         response = await fetch('/api/events', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newEventData),
+          body: JSON.stringify(eventData),
         });
       }
 

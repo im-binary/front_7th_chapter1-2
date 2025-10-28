@@ -102,28 +102,12 @@ export interface TestPyramid {
   rationale: string;
 }
 
-/**
- * Test Writer 출력
- */
-export interface TestWriterOutput {
-  testFiles: TestFile[];
-  implementationGuidelines: ImplementationGuideline[];
-  readinessCheck: ReadinessCheck;
-}
-
 export interface TestFile {
   path: string;
   content: string;
   testCount: number;
   dependencies: string[];
   coveredScenarios?: string[];
-}
-
-export interface ImplementationGuideline {
-  testId: string;
-  functionSignature: string;
-  expectedBehavior: string;
-  constraints: string[];
 }
 
 export interface ReadinessCheck {
@@ -139,17 +123,6 @@ export interface Issue {
   message: string;
   testId?: string;
   suggestion: string;
-}
-
-/**
- * Test Validator 출력
- */
-export interface TestValidatorOutput {
-  implementationFiles: ImplementationFile[];
-  testResults: TestExecutionResult;
-  coverage: CoverageReport;
-  greenStatus: GreenStatus;
-  nextSteps: string[];
 }
 
 export interface ImplementationFile {

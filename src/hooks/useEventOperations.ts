@@ -2,7 +2,6 @@ import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
 import { Event, EventForm } from '../types';
-import { addEventPrefix } from '../utils/eventUtils';
 
 export const useEventOperations = (editing: boolean, onSave?: () => void) => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -34,7 +33,7 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
       } else {
         const newEventData = {
           ...eventData,
-          title: addEventPrefix(eventData.title),
+          title: eventData.title.trim(),
         };
 
         response = await fetch('/api/events', {

@@ -71,7 +71,7 @@ describe('일정 CRUD 및 기본 기능', () => {
     });
 
     const eventList = within(screen.getByTestId('event-list'));
-    expect(eventList.getByText('[추가합니다] 새 회의')).toBeInTheDocument();
+    expect(eventList.getByText('새 회의')).toBeInTheDocument();
     expect(eventList.getByText('2025-10-15')).toBeInTheDocument();
     expect(eventList.getByText('14:00 - 15:00')).toBeInTheDocument();
     expect(eventList.getByText('프로젝트 진행 상황 논의')).toBeInTheDocument();
@@ -146,7 +146,7 @@ describe('일정 뷰', () => {
     await user.click(screen.getByRole('option', { name: 'week-option' }));
 
     const weekView = within(screen.getByTestId('week-view'));
-    expect(weekView.getByText('[추가합니다] 이번주 팀 회의')).toBeInTheDocument();
+    expect(weekView.getByText('이번주 팀 회의')).toBeInTheDocument();
   });
 
   it('월별 뷰에 일정이 없으면, 일정이 표시되지 않아야 한다.', async () => {
@@ -176,7 +176,7 @@ describe('일정 뷰', () => {
     });
 
     const monthView = within(screen.getByTestId('month-view'));
-    expect(monthView.getByText('[추가합니다] 이번달 팀 회의')).toBeInTheDocument();
+    expect(monthView.getByText('이번달 팀 회의')).toBeInTheDocument();
   });
 
   it('달력에 1월 1일(신정)이 공휴일로 표시되는지 확인한다', async () => {

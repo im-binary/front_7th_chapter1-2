@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 /**
- * Agent Orchestrator CLI
+ * Agent Orchestrator CLI (Interactive TDD Mode)
  *
- * 커맨드라인에서 에이전트 워크플로우를 실행하는 CLI 도구
+ * 커맨드라인에서 대화형 TDD 워크플로우를 실행하는 CLI 도구
  */
 
-import { runWorkflow } from './orchestrator';
+import * as readline from 'readline';
+
+import { runInteractiveWorkflow } from './orchestrator';
 
 /**
  * CLI 실행
@@ -35,7 +37,8 @@ async function main() {
   const requirement = args[requirementIndex];
 
   try {
-    const result = await runWorkflow(requirement);
+    console.log('\n🎯 대화형 TDD 모드로 시작합니다...\n');
+    const result = await runInteractiveWorkflow(requirement);
 
     // 종료 코드 설정
     process.exit(result.status === 'success' ? 0 : 1);
@@ -46,11 +49,29 @@ async function main() {
 }
 
 /**
+ * 사용자 입력 대기
+ */
+export async function waitForUserConfirmation(message: string): Promise<boolean> {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) => {
+    rl.question(`\n${message} (yes/no): `, (answer) => {
+      rl.close();
+      const confirmed = answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y';
+      resolve(confirmed);
+    });
+  });
+}
+
+/**
  * 도움말 출력
  */
 function printHelp() {
   console.log(`
-🤖 Agent Orchestrator CLI
+🤖 AI Orchestration System (TDD Mode)
 
 사용법:
   pnpm agent:run [options]
@@ -61,20 +82,33 @@ function printHelp() {
   -v, --version               버전 표시
 
 예시:
-  # 기본 사용
-  pnpm agent:run -r "일정 제목에 '[추가합니다]' 접두사 추가"
+  pnpm agent:run -r "일정 삭제 시 확인 다이얼로그 추가"
 
-  # 복잡한 요구사항
-  pnpm agent:run --requirement "반복 일정 기능 추가: 일간/주간/월간 반복 지원"
+🎯 대화형 TDD 워크플로우:
 
-워크플로우 단계:
-  1️⃣ Feature Selector - 요구사항 분석 및 기능 명세
-  2️⃣ Test Designer   - 테스트 케이스 설계
-  3️⃣ Test Writer     - 테스트 코드 작성 (RED)
-  4️⃣ Test Validator  - 구현 및 검증 (GREEN)
-  5️⃣ Refactoring     - 코드 품질 개선 (REFACTOR)
+  Step 1: [Gemini] 기능 명세서 작성
+    → 실행: pnpm agent:run -r "요구사항"
+    → 확인: agents/output/ 폴더의 .md 파일
+    → 승인: GitHub Copilot에게 "명세서 검토해줘" 요청
 
-자세한 내용: https://github.com/your-repo/agents
+  Step 2: [Gemini] 테스트 케이스 설계 (RED)
+    → 승인: "OK, 테스트 설계해줘"
+    
+  Step 3: [Copilot] 테스트 코드 작성
+    → 요청: "테스트 코드 작성해줘"
+    → 확인: 생성된 테스트 파일
+    → 승인: "OK, 다음"
+    
+  Step 4: [Copilot] 구현 코드 작성 (GREEN)
+    → 요청: "구현 코드 작성해줘"
+    → 확인: 테스트 통과 확인
+    → 승인: "OK, 다음"
+    
+  Step 5: [Copilot] 리팩토링 (REFACTOR)
+    → 요청: "코드 리팩토링해줘"
+    → 확인: 최종 코드 품질
+    → 완료! ✅
+
   `);
 }
 

@@ -56,31 +56,3 @@ export function getFilteredEvents(
 
   return searchedEvents;
 }
-
-/**
- * 일정 제목 접두사 상수
- */
-export const EVENT_PREFIX = '[추가합니다]';
-
-/**
- * 일정 제목에 접두사를 추가합니다.
- * 이미 접두사가 있으면 중복 추가하지 않으며, 공백을 보정합니다.
- *
- * @param title - 원본 제목
- * @returns 접두사가 추가된 제목
- * @example
- * addEventPrefix('회의') // '[추가합니다] 회의'
- * addEventPrefix('[추가합니다] 회의') // '[추가합니다] 회의'
- * addEventPrefix('[추가합니다]회의') // '[추가합니다] 회의'
- */
-export function addEventPrefix(title: string): string {
-  const trimmedTitle = title.trim();
-
-  if (trimmedTitle.startsWith(EVENT_PREFIX)) {
-    // 접두사는 있지만 공백이 없는 경우 공백 추가
-    const afterPrefix = trimmedTitle.slice(EVENT_PREFIX.length);
-    return afterPrefix.startsWith(' ') ? trimmedTitle : `${EVENT_PREFIX} ${afterPrefix}`;
-  }
-
-  return `${EVENT_PREFIX} ${trimmedTitle}`;
-}

@@ -67,7 +67,7 @@ it('정의된 이벤트 정보를 기준으로 적절하게 저장이 된다', a
     await result.current.saveEvent(newEvent);
   });
 
-  expect(result.current.events).toEqual([{ ...newEvent, id: '1', title: '[추가합니다] 새 회의' }]);
+  expect(result.current.events).toEqual([{ ...newEvent, id: '1', title: '새 회의' }]);
 });
 
 it("새로 정의된 'title', 'endTime' 기준으로 적절하게 일정이 업데이트 된다", async () => {
@@ -173,7 +173,7 @@ it("네트워크 오류 시 '일정 삭제 실패'라는 텍스트가 노출되�
 });
 
 describe('일정 제목 접두사 기능', () => {
-  it('신규 일정 생성 시 제목 앞에 "[추가합니다]" 접두사가 자동으로 추가된다', async () => {
+  it('신규 일정 생성 시 제목에 접두사가 추가되지 않는다 (접두사 제거됨)', async () => {
     // Arrange
     setupMockHandlerCreation();
     const { result } = renderHook(() => useEventOperations(false));
@@ -198,7 +198,7 @@ describe('일정 제목 접두사 기능', () => {
     });
 
     // Assert
-    expect(result.current.events[0].title).toBe('[추가합니다] 팀 회의');
+    expect(result.current.events[0].title).toBe('팀 회의');
   });
 
   it('기존 일정 수정 시에는 접두사가 추가되지 않는다', async () => {

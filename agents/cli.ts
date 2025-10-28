@@ -82,32 +82,42 @@ function printHelp() {
   -v, --version               버전 표시
 
 예시:
-  pnpm agent:run -r "일정 삭제 시 확인 다이얼로그 추가"
+  pnpm agent:run -r "일정 제목에 추가되는 접두사 제거"
 
-🎯 대화형 TDD 워크플로우:
+🎯 실제 TDD 워크플로우 (통합 방식):
 
   Step 1: [Gemini] 기능 명세서 작성
     → 실행: pnpm agent:run -r "요구사항"
-    → 확인: agents/output/ 폴더의 .md 파일
-    → 승인: GitHub Copilot에게 "명세서 검토해줘" 요청
+    → 확인: agents/output/ 폴더의 명세서 파일
+    
+  Step 2: [Gemini] 테스트 케이스 설계
+    → agents/output/ 폴더의 테스트 설계 파일 확인
 
-  Step 2: [Gemini] 테스트 케이스 설계 (RED)
-    → 승인: "OK, 테스트 설계해줘"
+  Step 3: [Copilot] TDD RED 단계 - 실패하는 테스트 작성
+    → Copilot에게 명세서와 테스트 설계를 첨부하여 요청
+    → 요청 예시: "# TDD RED 단계: 테스트 코드 작성
+                   (명세서 내용 첨부)
+                   실패하는 테스트 코드를 작성해주세요"
+    → 확인: 테스트가 실패하는지 확인 (pnpm test)
     
-  Step 3: [Copilot] 테스트 코드 작성
-    → 요청: "테스트 코드 작성해줘"
-    → 확인: 생성된 테스트 파일
-    → 승인: "OK, 다음"
+  Step 4: [Copilot] TDD GREEN 단계 - 최소 구현
+    → 요청: "# TDD GREEN 단계: 최소 구현 요청
+              (명세서 및 테스트 코드 내용 포함)
+              테스트를 통과하는 최소한의 코드를 작성해주세요"
+    → 확인: 모든 테스트가 통과하는지 확인 (pnpm test)
     
-  Step 4: [Copilot] 구현 코드 작성 (GREEN)
-    → 요청: "구현 코드 작성해줘"
-    → 확인: 테스트 통과 확인
-    → 승인: "OK, 다음"
-    
-  Step 5: [Copilot] 리팩토링 (REFACTOR)
-    → 요청: "코드 리팩토링해줘"
-    → 확인: 최종 코드 품질
+  Step 5: [Copilot] TDD REFACTOR 단계 - 코드 개선
+    → 요청: "# TDD REFACTOR 단계: 코드 개선 요청
+              (명세서 포함)
+              테스트를 유지하면서 코드를 리팩토링해주세요"
+    → 확인: 리팩토링 후에도 모든 테스트 통과 확인
     → 완료! ✅
+
+💡 팁:
+  - 각 단계마다 Copilot과 대화하면서 진행하세요
+  - 명세서를 항상 첨부하여 컨텍스트를 유지하세요
+  - 테스트 실행 결과를 확인하며 진행하세요
+  - 필요시 추가 리팩토링이나 개선을 요청하세요
 
   `);
 }

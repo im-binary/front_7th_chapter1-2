@@ -60,6 +60,46 @@ const categories = ['업무', '개인', '가족', '기타'];
 
 const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
+// 반복 일정 관련 상수
+const REPEAT_TYPE_NONE = 'none';
+
+// 반복 일정 체크 헬퍼 함수
+const isRepeatEvent = (event: Event): boolean => {
+  return event.repeat.type !== REPEAT_TYPE_NONE;
+};
+
+/**
+ * 일정의 아이콘을 렌더링하는 컴포넌트
+ * - 알림 아이콘 (Notifications)
+ * - 반복 아이콘 (Repeat)
+ */
+interface EventIconsProps {
+  isNotified: boolean;
+  isRepeat: boolean;
+  iconSize?: 'small' | 'medium' | 'large';
+  notificationColor?: 'inherit' | 'primary' | 'secondary' | 'error';
+  repeatColor?: 'inherit' | 'primary' | 'secondary' | 'error';
+}
+
+const EventIcons = ({
+  isNotified,
+  isRepeat,
+  iconSize = 'small',
+  notificationColor = 'error',
+  repeatColor,
+}: EventIconsProps) => (
+  <>
+    {isNotified && (
+      <Notifications
+        fontSize={iconSize}
+        color={notificationColor}
+        aria-label="Notifications icon"
+      />
+    )}
+    {isRepeat && <Repeat fontSize={iconSize} color={repeatColor} aria-label="Repeat icon" />}
+  </>
+);
+
 const notificationOptions = [
   { value: 1, label: '1분 전' },
   { value: 10, label: '10분 전' },
@@ -224,12 +264,7 @@ function App() {
                             }}
                           >
                             <Stack direction="row" spacing={1} alignItems="center">
-                              {isNotified && (
-                                <Notifications fontSize="small" aria-label="Notifications icon" />
-                              )}
-                              {event.repeat.type !== 'none' && (
-                                <Repeat fontSize="small" aria-label="Repeat icon" />
-                              )}
+                              <EventIcons isNotified={isNotified} isRepeat={isRepeatEvent(event)} />
                               <Typography
                                 variant="caption"
                                 noWrap
@@ -316,15 +351,10 @@ function App() {
                                   }}
                                 >
                                   <Stack direction="row" spacing={1} alignItems="center">
-                                    {isNotified && (
-                                      <Notifications
-                                        fontSize="small"
-                                        aria-label="Notifications icon"
-                                      />
-                                    )}
-                                    {event.repeat.type !== 'none' && (
-                                      <Repeat fontSize="small" aria-label="Repeat icon" />
-                                    )}
+                                    <EventIcons
+                                      isNotified={isNotified}
+                                      isRepeat={isRepeatEvent(event)}
+                                    />
                                     <Typography
                                       variant="caption"
                                       noWrap
@@ -578,12 +608,11 @@ function App() {
                 <Stack direction="row" justifyContent="space-between">
                   <Stack>
                     <Stack direction="row" spacing={1} alignItems="center">
-                      {notifiedEvents.includes(event.id) && (
-                        <Notifications color="error" aria-label="Notifications icon" />
-                      )}
-                      {event.repeat.type !== 'none' && (
-                        <Repeat color="primary" fontSize="small" aria-label="Repeat icon" />
-                      )}
+                      <EventIcons
+                        isNotified={notifiedEvents.includes(event.id)}
+                        isRepeat={isRepeatEvent(event)}
+                        repeatColor="primary"
+                      />
                       <Typography
                         fontWeight={notifiedEvents.includes(event.id) ? 'bold' : 'normal'}
                         color={notifiedEvents.includes(event.id) ? 'error' : 'inherit'}

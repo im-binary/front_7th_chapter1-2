@@ -1,4 +1,12 @@
-import { Notifications, ChevronLeft, ChevronRight, Delete, Edit, Close } from '@mui/icons-material';
+import {
+  Notifications,
+  ChevronLeft,
+  ChevronRight,
+  Delete,
+  Edit,
+  Close,
+  Repeat,
+} from '@mui/icons-material';
 import {
   Alert,
   AlertTitle,
@@ -216,7 +224,12 @@ function App() {
                             }}
                           >
                             <Stack direction="row" spacing={1} alignItems="center">
-                              {isNotified && <Notifications fontSize="small" />}
+                              {isNotified && (
+                                <Notifications fontSize="small" aria-label="Notifications icon" />
+                              )}
+                              {event.repeat.type !== 'none' && (
+                                <Repeat fontSize="small" aria-label="Repeat icon" />
+                              )}
                               <Typography
                                 variant="caption"
                                 noWrap
@@ -303,7 +316,15 @@ function App() {
                                   }}
                                 >
                                   <Stack direction="row" spacing={1} alignItems="center">
-                                    {isNotified && <Notifications fontSize="small" />}
+                                    {isNotified && (
+                                      <Notifications
+                                        fontSize="small"
+                                        aria-label="Notifications icon"
+                                      />
+                                    )}
+                                    {event.repeat.type !== 'none' && (
+                                      <Repeat fontSize="small" aria-label="Repeat icon" />
+                                    )}
                                     <Typography
                                       variant="caption"
                                       noWrap
@@ -557,7 +578,12 @@ function App() {
                 <Stack direction="row" justifyContent="space-between">
                   <Stack>
                     <Stack direction="row" spacing={1} alignItems="center">
-                      {notifiedEvents.includes(event.id) && <Notifications color="error" />}
+                      {notifiedEvents.includes(event.id) && (
+                        <Notifications color="error" aria-label="Notifications icon" />
+                      )}
+                      {event.repeat.type !== 'none' && (
+                        <Repeat color="primary" fontSize="small" aria-label="Repeat icon" />
+                      )}
                       <Typography
                         fontWeight={notifiedEvents.includes(event.id) ? 'bold' : 'normal'}
                         color={notifiedEvents.includes(event.id) ? 'error' : 'inherit'}

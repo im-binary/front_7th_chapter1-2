@@ -108,3 +108,57 @@ export function formatDate(currentDate: Date, day?: number) {
     fillZero(day ?? currentDate.getDate()),
   ].join('-');
 }
+
+/**
+ * 윤년 여부를 확인합니다.
+ * @param year 확인할 연도
+ * @returns 윤년이면 true, 아니면 false
+ */
+export function isLeapYear(year: number): boolean {
+  // TODO: 구현 필요 - RED 단계
+  throw new Error('Not implemented');
+}
+
+/**
+ * 날짜에 일수를 더합니다.
+ * @param date 기준 날짜
+ * @param days 더할 일수
+ * @returns 계산된 새로운 날짜
+ */
+export function addDays(date: Date, days: number): Date {
+  // TODO: 구현 필요 - RED 단계
+  throw new Error('Not implemented');
+}
+
+/**
+ * 날짜에 주를 더합니다.
+ * @param date 기준 날짜
+ * @param weeks 더할 주 수
+ * @returns 계산된 새로운 날짜
+ */
+export function addWeeks(date: Date, weeks: number): Date {
+  // TODO: 구현 필요 - RED 단계
+  throw new Error('Not implemented');
+}
+
+/**
+ * 날짜에 개월을 더합니다. (31일 특수 케이스 처리)
+ * @param date 기준 날짜
+ * @param months 더할 개월 수
+ * @returns 계산된 새로운 날짜
+ */
+export function addMonths(date: Date, months: number): Date {
+  // TODO: 구현 필요 - RED 단계
+  throw new Error('Not implemented');
+}
+
+/**
+ * 날짜에 연도를 더합니다. (윤년 29일 특수 케이스 처리)
+ * @param date 기준 날짜
+ * @param years 더할 연도 수
+ * @returns 계산된 새로운 날짜
+ */
+export function addYears(date: Date, years: number): Date {
+  // TODO: 구현 필요 - RED 단계
+  throw new Error('Not implemented');
+}

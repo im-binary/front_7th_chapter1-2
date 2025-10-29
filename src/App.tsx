@@ -136,16 +136,22 @@ function App() {
     endTimeError,
     editingEvent,
     setEditingEvent,
+    recurringEditMode,
+    setRecurringEditMode,
     handleStartTimeChange,
     handleEndTimeChange,
     resetForm,
     editEvent,
   } = useEventForm();
 
-  const { events, saveEvent, deleteEvent, saveMultipleEvents } = useEventOperations(
-    Boolean(editingEvent),
-    () => setEditingEvent(null)
-  );
+  const {
+    events,
+    saveEvent,
+    deleteEvent,
+    saveMultipleEvents,
+    updateSingleRecurringEvent,
+    updateAllRecurringEvents,
+  } = useEventOperations(Boolean(editingEvent), () => setEditingEvent(null));
 
   const { notifications, notifiedEvents, setNotifications } = useNotifications(events);
   const { view, setView, currentDate, holidays, navigate } = useCalendarView();
@@ -153,8 +159,29 @@ function App() {
 
   const [isOverlapDialogOpen, setIsOverlapDialogOpen] = useState(false);
   const [overlappingEvents, setOverlappingEvents] = useState<Event[]>([]);
+  const [isRecurringEditDialogOpen, setIsRecurringEditDialogOpen] = useState(false);
+  const [eventToModify, setEventToModify] = useState<Event | null>(null);
 
   const { enqueueSnackbar } = useSnackbar();
+
+  // 반복 일정 수정 다이얼로그 핸들러
+  const handleConfirmSingleEdit = () => {
+    if (eventToModify) {
+      editEvent(eventToModify);
+      setRecurringEditMode('single');
+      setIsRecurringEditDialogOpen(false);
+      setEventToModify(null);
+    }
+  };
+
+  const handleConfirmAllEdit = () => {
+    if (eventToModify) {
+      editEvent(eventToModify);
+      setRecurringEditMode('all');
+      setIsRecurringEditDialogOpen(false);
+      setEventToModify(null);
+    }
+  };
 
   const addOrUpdateEvent = async () => {
     if (!title || !date || !startTime || !endTime) {
@@ -196,8 +223,30 @@ function App() {
       );
       await saveMultipleEvents(recurringEvents as EventForm[]);
       resetForm();
+    } else if (editingEvent) {
+      // 일정 수정 시 recurringEditMode에 따라 분기
+      if (recurringEditMode === 'single') {
+        await updateSingleRecurringEvent(eventData as Event);
+        resetForm();
+        setRecurringEditMode('none');
+      } else if (recurringEditMode === 'all') {
+        await updateAllRecurringEvents(eventData as Event, editingEvent);
+        resetForm();
+        setRecurringEditMode('none');
+      } else {
+        // 일반 일정 수정 (recurringEditMode === 'none')
+        const overlapping = findOverlappingEvents(eventData, events);
+        if (overlapping.length > 0) {
+          setOverlappingEvents(overlapping);
+          setIsOverlapDialogOpen(true);
+        } else {
+          await saveEvent(eventData);
+          resetForm();
+          setRecurringEditMode('none');
+        }
+      }
     } else {
-      // 단일 일정인 경우 기존 로직 유지
+      // 단일 일정 추가
       const overlapping = findOverlappingEvents(eventData, events);
       if (overlapping.length > 0) {
         setOverlappingEvents(overlapping);
@@ -648,7 +697,17 @@ function App() {
                     </Typography>
                   </Stack>
                   <Stack>
-                    <IconButton aria-label="Edit event" onClick={() => editEvent(event)}>
+                    <IconButton
+                      aria-label="Edit event"
+                      onClick={() => {
+                        if (isRepeatEvent(event)) {
+                          setEventToModify(event);
+                          setIsRecurringEditDialogOpen(true);
+                        } else {
+                          editEvent(event);
+                        }
+                      }}
+                    >
                       <Edit />
                     </IconButton>
                     <IconButton aria-label="Delete event" onClick={() => deleteEvent(event.id)}>
@@ -661,6 +720,24 @@ function App() {
           )}
         </Stack>
       </Stack>
+
+      {/* 반복 일정 수정 범위 선택 다이얼로그 */}
+      <Dialog
+        open={isRecurringEditDialogOpen}
+        onClose={() => {
+          setIsRecurringEditDialogOpen(false);
+          setEventToModify(null);
+        }}
+      >
+        <DialogTitle>반복 일정 수정</DialogTitle>
+        <DialogContent>
+          <DialogContentText>해당 일정만 수정하시겠어요?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmSingleEdit}>예 (이 일정만)</Button>
+          <Button onClick={handleConfirmAllEdit}>아니오 (모든 일정)</Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog open={isOverlapDialogOpen} onClose={() => setIsOverlapDialogOpen(false)}>
         <DialogTitle>일정 겹침 경고</DialogTitle>

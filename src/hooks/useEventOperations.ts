@@ -92,16 +92,88 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     }
   };
 
-  // RED 단계: 구현 스텁 - 반복 일정 단일 수정
-  const updateSingleRecurringEvent = async (_eventToUpdate: Event) => {
-    // TODO: 구현 예정
-    return undefined;
+  // GREEN 단계: 반복 일정 단일 수정 구현
+  const updateSingleRecurringEvent = async (eventToUpdate: Event) => {
+    try {
+      // repeat.type을 'none'으로 변경
+      const updatedEvent = {
+        ...eventToUpdate,
+        repeat: {
+          ...eventToUpdate.repeat,
+          type: 'none' as const,
+        },
+      };
+
+      const response = await fetch(`/api/events/${eventToUpdate.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedEvent),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update single recurring event');
+      }
+
+      await fetchEvents();
+      onSave?.();
+      enqueueSnackbar('일정이 수정되었습니다.', { variant: 'success' });
+    } catch (error) {
+      console.error('Error updating single recurring event:', error);
+      enqueueSnackbar('일정 수정 실패', { variant: 'error' });
+    }
   };
 
-  // RED 단계: 구현 스텁 - 반복 일정 전체 수정
-  const updateAllRecurringEvents = async (_modifiedEvent: Event) => {
-    // TODO: 구현 예정
-    return undefined;
+  // GREEN 단계: 반복 일정 전체 수정 구현
+  const updateAllRecurringEvents = async (modifiedEvent: Event, originalEvent?: Event) => {
+    try {
+      // 원본 이벤트가 제공되면 그것을 사용, 아니면 modifiedEvent 사용
+      const referenceEvent = originalEvent || modifiedEvent;
+
+      // 동일 그룹 식별: 원본 이벤트의 title, startTime, endTime, repeat.type이 모두 같은 일정들
+      const recurringGroup = events.filter(
+        (event) =>
+          event.title === referenceEvent.title &&
+          event.startTime === referenceEvent.startTime &&
+          event.endTime === referenceEvent.endTime &&
+          event.repeat.type === referenceEvent.repeat.type &&
+          event.repeat.type !== 'none'
+      );
+
+      // 각 일정에 대해 PUT 요청
+      for (const eventInGroup of recurringGroup) {
+        const updatedEvent = {
+          ...eventInGroup,
+          // 변경된 필드만 업데이트
+          title: modifiedEvent.title,
+          description: modifiedEvent.description,
+          location: modifiedEvent.location,
+          category: modifiedEvent.category,
+          notificationTime: modifiedEvent.notificationTime,
+          // id, date는 유지
+          // startTime, endTime도 업데이트
+          startTime: modifiedEvent.startTime,
+          endTime: modifiedEvent.endTime,
+          // repeat는 유지
+        };
+
+        const response = await fetch(`/api/events/${eventInGroup.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedEvent),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to update event: ${eventInGroup.id}`);
+        }
+      }
+
+      await fetchEvents();
+      onSave?.();
+      enqueueSnackbar('모든 반복 일정이 수정되었습니다.', { variant: 'success' });
+    } catch (error) {
+      console.error('Error updating all recurring events:', error);
+      enqueueSnackbar('반복 일정 수정 실패', { variant: 'error' });
+    }
   };
 
   async function init() {

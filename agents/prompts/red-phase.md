@@ -56,6 +56,40 @@
 - 테스트 파일과 구현 스텁 파일 모두 출력
 - 각 파일별 경로와 내용을 명확히 표시
 
+- 렌더링을 테스트할 때는 아래처럼 하세요.
+
+```typescript
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { SnackbarProvider } from 'notistack';
+import { render } from '@testing-library/react';
+import App from '../App';
+import userEvent from '@testing-library/user-event';
+
+const theme = createTheme();
+
+const setup = (element: ReactElement) => {
+  const user = userEvent.setup();
+
+  return {
+    ...render(
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <SnackbarProvider>{element}</SnackbarProvider>
+      </ThemeProvider>
+    ),
+    user,
+  };
+};
+
+describe('myComponent', () => {
+  it('TC001: 컴포넌트 렌더링 테스트', () => {
+    const { user } = setup(<App />);
+    // 이하 코드 작성
+  });
+});
+```
+
 ```typescript
 // 예시: 구현 스텁 파일
 // src/utils/myFunction.ts

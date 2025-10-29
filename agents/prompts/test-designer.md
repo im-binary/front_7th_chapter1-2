@@ -11,9 +11,24 @@ Feature Selector가 분석한 기능을 바탕으로 구체적이고 의미있�
 
 {{featureSelectorMarkdown}}
 
+## 기술 스택 및 테스트 환경
+
+- UI 프레임워크: React + MUI(Material UI)
+- 상태 관리: React Hooks 기반(`useEventForm`, `useEventOperations`)
+- 테스트 프레임워크: Vitest + Testing Library
+- Mocking: vi.mock / jest.spyOn 형태 사용
+- 렌더링 유틸: `render` 및 `screen` API를 활용한 DOM 기반 검증
+- UI 컴포넌트는 MUI 기반으로, `aria-label`, `role`, `text` 등 접근성 속성을 통해 요소를 탐색합니다.
+
+## 철학적 기반
+
+본 테스트 전략은 Kent Beck의 Test-Driven Development 원칙, Martin Fowler의 Testing Pyramid 개념,
+Robert C. Martin의 Clean Code 원칙을 참고하여 설계되었습니다.  
+이 접근은 단순한 코드 커버리지를 넘어, 비즈니스 가치와 사용자 시나리오 중심의 검증을 목표로 합니다.
+
 ## 핵심 원칙: 의미있는 테스트란?
 
-### ✅ 좋은 테스트의 특징 (F.I.R.S.T 원칙)
+### 좋은 테스트의 특징 (F.I.R.S.T 원칙)
 
 1. Fast (빠름): 테스트는 빠르게 실행되어야 합니다
 2. Independent (독립적): 각 테스트는 다른 테스트에 의존하지 않아야 합니다

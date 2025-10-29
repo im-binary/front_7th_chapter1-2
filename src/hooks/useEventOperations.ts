@@ -92,6 +92,18 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     }
   };
 
+  // RED 단계: 구현 스텁 - 반복 일정 단일 수정
+  const updateSingleRecurringEvent = async (_eventToUpdate: Event) => {
+    // TODO: 구현 예정
+    return undefined;
+  };
+
+  // RED 단계: 구현 스텁 - 반복 일정 전체 수정
+  const updateAllRecurringEvents = async (_modifiedEvent: Event) => {
+    // TODO: 구현 예정
+    return undefined;
+  };
+
   async function init() {
     await fetchEvents();
     enqueueSnackbar('일정 로딩 완료!', { variant: 'info' });
@@ -102,5 +114,13 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { events, fetchEvents, saveEvent, deleteEvent, saveMultipleEvents };
+  return {
+    events,
+    fetchEvents,
+    saveEvent,
+    deleteEvent,
+    saveMultipleEvents,
+    updateSingleRecurringEvent,
+    updateAllRecurringEvents,
+  };
 };

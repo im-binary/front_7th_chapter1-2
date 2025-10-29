@@ -26,6 +26,7 @@ export const useEventForm = (initialEvent?: Event) => {
   const [notificationTime, setNotificationTime] = useState(initialEvent?.notificationTime || 10);
 
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+  const [recurringEditMode, setRecurringEditMode] = useState<'none' | 'single' | 'all'>('none');
 
   const [{ startTimeError, endTimeError }, setTimeError] = useState<TimeErrorRecord>({
     startTimeError: null,
@@ -57,6 +58,7 @@ export const useEventForm = (initialEvent?: Event) => {
     setRepeatInterval(1);
     setRepeatEndDate('');
     setNotificationTime(10);
+    setRecurringEditMode('none');
   };
 
   const editEvent = (event: Event) => {
@@ -104,6 +106,8 @@ export const useEventForm = (initialEvent?: Event) => {
     endTimeError,
     editingEvent,
     setEditingEvent,
+    recurringEditMode,
+    setRecurringEditMode,
     handleStartTimeChange,
     handleEndTimeChange,
     resetForm,

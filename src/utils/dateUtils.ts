@@ -115,8 +115,14 @@ export function formatDate(currentDate: Date, day?: number) {
  * @returns 윤년이면 true, 아니면 false
  */
 export function isLeapYear(year: number): boolean {
-  // TODO: 구현 필요 - RED 단계
-  throw new Error('Not implemented');
+  // 400의 배수는 윤년
+  if (year % 400 === 0) return true;
+  // 100의 배수는 윤년이 아님
+  if (year % 100 === 0) return false;
+  // 4의 배수는 윤년
+  if (year % 4 === 0) return true;
+  // 그 외는 윤년이 아님
+  return false;
 }
 
 /**
@@ -126,8 +132,9 @@ export function isLeapYear(year: number): boolean {
  * @returns 계산된 새로운 날짜
  */
 export function addDays(date: Date, days: number): Date {
-  // TODO: 구현 필요 - RED 단계
-  throw new Error('Not implemented');
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
 }
 
 /**
@@ -137,8 +144,7 @@ export function addDays(date: Date, days: number): Date {
  * @returns 계산된 새로운 날짜
  */
 export function addWeeks(date: Date, weeks: number): Date {
-  // TODO: 구현 필요 - RED 단계
-  throw new Error('Not implemented');
+  return addDays(date, weeks * 7);
 }
 
 /**
@@ -148,8 +154,19 @@ export function addWeeks(date: Date, weeks: number): Date {
  * @returns 계산된 새로운 날짜
  */
 export function addMonths(date: Date, months: number): Date {
-  // TODO: 구현 필요 - RED 단계
-  throw new Error('Not implemented');
+  const result = new Date(date);
+  const targetMonth = result.getMonth() + months;
+  result.setMonth(targetMonth);
+
+  // 31일 등 특수 케이스 처리: 날짜가 넘쳐서 다음 달로 넘어간 경우
+  // 예: 1월 31일 + 1개월 = 3월 3일(X) -> 2월 28일(O)
+  const expectedMonth = (((date.getMonth() + months) % 12) + 12) % 12;
+  if (result.getMonth() !== expectedMonth) {
+    // 0일로 설정하면 전월의 마지막 날이 됨
+    result.setDate(0);
+  }
+
+  return result;
 }
 
 /**
@@ -159,6 +176,16 @@ export function addMonths(date: Date, months: number): Date {
  * @returns 계산된 새로운 날짜
  */
 export function addYears(date: Date, years: number): Date {
-  // TODO: 구현 필요 - RED 단계
-  throw new Error('Not implemented');
+  const result = new Date(date);
+  const targetYear = result.getFullYear() + years;
+  result.setFullYear(targetYear);
+
+  // 윤년 2월 29일 특수 케이스 처리
+  // 예: 2024-02-29 + 1년 = 2025-03-01(X) -> 2025-02-28(O)
+  if (date.getMonth() === 1 && date.getDate() === 29 && result.getMonth() !== 1) {
+    // 2월 29일이었는데 다음 해가 윤년이 아니어서 3월로 넘어간 경우
+    result.setDate(0); // 전월(2월) 마지막 날로 설정
+  }
+
+  return result;
 }

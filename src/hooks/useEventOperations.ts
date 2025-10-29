@@ -53,6 +53,29 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     }
   };
 
+  const saveMultipleEvents = async (eventsToSave: EventForm[]) => {
+    try {
+      for (const eventData of eventsToSave) {
+        const response = await fetch('/api/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(eventData),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to save event: ${eventData.title}`);
+        }
+      }
+
+      await fetchEvents();
+      onSave?.();
+      enqueueSnackbar('반복 일정이 모두 추가되었습니다.', { variant: 'success' });
+    } catch (error) {
+      console.error('Error saving multiple events:', error);
+      enqueueSnackbar('반복 일정 저장 실패', { variant: 'error' });
+    }
+  };
+
   const deleteEvent = async (id: string) => {
     try {
       const response = await fetch(`/api/events/${id}`, { method: 'DELETE' });
@@ -79,5 +102,5 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { events, fetchEvents, saveEvent, deleteEvent };
+  return { events, fetchEvents, saveEvent, deleteEvent, saveMultipleEvents };
 };

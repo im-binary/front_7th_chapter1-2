@@ -690,6 +690,8 @@ export class AgentOrchestrator {
         }
       }
 
+      console.log(`📊 관련 코드 크기: ${relatedCode.length} 문자`);
+
       return {
         structure,
         relatedCode: relatedCode || '관련 코드를 찾지 못했습니다.',
@@ -1074,10 +1076,17 @@ export class AgentOrchestrator {
       fs.mkdirSync(fullPath, { recursive: true });
     }
 
+    // 빈 마크다운 저장 방지
+    if (!markdown || markdown.trim().length === 0) {
+      console.warn(`⚠️ ${agentType}: 빈 마크다운 결과 - 저장하지 않음`);
+      throw new Error(`${agentType} 결과가 비어있습니다`);
+    }
+
     const filename = `${this.context.workflowId}_${agentType}_${Date.now()}.md`;
     const filepath = path.join(fullPath, filename);
 
     fs.writeFileSync(filepath, markdown);
+    console.log(`✅ 결과 저장됨: ${filepath} (${markdown.length} 문자)`);
   }
 
   /**

@@ -25,6 +25,8 @@ const SNACKBAR_MESSAGES = {
   ALL_RECURRING_EVENTS_UPDATED: '모든 반복 일정이 수정되었습니다.',
   RECURRING_EVENT_UPDATE_FAILED: '반복 일정 수정 실패',
   SINGLE_RECURRING_EVENT_UPDATE_FAILED: '일정 수정 실패',
+  ALL_RECURRING_EVENTS_DELETED: '모든 반복 일정이 삭제되었습니다.',
+  RECURRING_EVENT_DELETE_FAILED: '반복 일정 삭제 실패',
 } as const;
 
 export const useEventOperations = (editing: boolean, onSave?: () => void) => {
@@ -226,6 +228,32 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
   };
 
   /**
+   * 반복 일정 그룹 전체를 삭제
+   * - 동일한 반복 그룹의 모든 일정을 삭제
+   * @param referenceEvent - 기준이 되는 반복 일정
+   */
+  const deleteAllRecurringEvents = async (referenceEvent: Event) => {
+    try {
+      // 1. 동일한 반복 그룹에 속하는 모든 일정 찾기
+      const matchingRecurringEvents = findRecurringGroupEvents(referenceEvent);
+
+      // 2. 각 일정을 순차적으로 삭제
+      for (const event of matchingRecurringEvents) {
+        await callApi(`${API_BASE_URL}/${event.id}`, { method: 'DELETE' });
+      }
+
+      // 3. 이벤트 목록 갱신
+      await fetchEvents();
+
+      // 4. 성공 메시지 표시
+      enqueueSnackbar(SNACKBAR_MESSAGES.ALL_RECURRING_EVENTS_DELETED, { variant: 'success' });
+    } catch (error) {
+      console.error('Error deleting all recurring events:', error);
+      enqueueSnackbar(SNACKBAR_MESSAGES.RECURRING_EVENT_DELETE_FAILED, { variant: 'error' });
+    }
+  };
+
+  /**
    * 초기화 함수 - 이벤트 목록을 불러오고 사용자에게 알림
    */
   const init = async () => {
@@ -246,5 +274,6 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     saveMultipleEvents,
     updateSingleRecurringEvent,
     updateAllRecurringEvents,
+    deleteAllRecurringEvents,
   };
 };

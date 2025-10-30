@@ -16,6 +16,14 @@ export const setupMockHandlerCreation = (initEvents = [] as Event[]) => {
       newEvent.id = String(mockEvents.length + 1); // 간단한 ID 생성
       mockEvents.push(newEvent);
       return HttpResponse.json(newEvent, { status: 201 });
+    }),
+    http.delete('/api/events/:id', ({ params }) => {
+      const { id } = params;
+      const index = mockEvents.findIndex((event) => event.id === id);
+      if (index !== -1) {
+        mockEvents.splice(index, 1);
+      }
+      return new HttpResponse(null, { status: 204 });
     })
   );
 };

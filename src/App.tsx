@@ -151,6 +151,7 @@ function App() {
     saveMultipleEvents,
     updateSingleRecurringEvent,
     updateAllRecurringEvents,
+    deleteAllRecurringEvents,
   } = useEventOperations(Boolean(editingEvent), () => setEditingEvent(null));
 
   const { notifications, notifiedEvents, setNotifications } = useNotifications(events);
@@ -161,6 +162,8 @@ function App() {
   const [overlappingEvents, setOverlappingEvents] = useState<Event[]>([]);
   const [isRecurringEditDialogOpen, setIsRecurringEditDialogOpen] = useState(false);
   const [eventToModify, setEventToModify] = useState<Event | null>(null);
+  const [isRecurringDeleteDialogOpen, setIsRecurringDeleteDialogOpen] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -180,6 +183,32 @@ function App() {
       setRecurringEditMode('all');
       setIsRecurringEditDialogOpen(false);
       setEventToModify(null);
+    }
+  };
+
+  // 반복 일정 삭제 다이얼로그 핸들러
+  const handleDeleteClick = (event: Event) => {
+    if (isRepeatEvent(event)) {
+      setEventToDelete(event);
+      setIsRecurringDeleteDialogOpen(true);
+    } else {
+      deleteEvent(event.id);
+    }
+  };
+
+  const handleConfirmSingleDelete = () => {
+    if (eventToDelete) {
+      deleteEvent(eventToDelete.id);
+      setIsRecurringDeleteDialogOpen(false);
+      setEventToDelete(null);
+    }
+  };
+
+  const handleConfirmAllDelete = () => {
+    if (eventToDelete) {
+      deleteAllRecurringEvents(eventToDelete);
+      setIsRecurringDeleteDialogOpen(false);
+      setEventToDelete(null);
     }
   };
 
@@ -710,7 +739,7 @@ function App() {
                     >
                       <Edit />
                     </IconButton>
-                    <IconButton aria-label="Delete event" onClick={() => deleteEvent(event.id)}>
+                    <IconButton aria-label="Delete event" onClick={() => handleDeleteClick(event)}>
                       <Delete />
                     </IconButton>
                   </Stack>
@@ -736,6 +765,24 @@ function App() {
         <DialogActions>
           <Button onClick={handleConfirmSingleEdit}>예 (이 일정만)</Button>
           <Button onClick={handleConfirmAllEdit}>아니오 (모든 일정)</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* 반복 일정 삭제 범위 선택 다이얼로그 */}
+      <Dialog
+        open={isRecurringDeleteDialogOpen}
+        onClose={() => {
+          setIsRecurringDeleteDialogOpen(false);
+          setEventToDelete(null);
+        }}
+      >
+        <DialogTitle>반복 일정 삭제</DialogTitle>
+        <DialogContent>
+          <DialogContentText>해당 일정만 삭제하시겠어요?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmSingleDelete}>예 (이 일정만)</Button>
+          <Button onClick={handleConfirmAllDelete}>아니오 (모든 일정)</Button>
         </DialogActions>
       </Dialog>
 

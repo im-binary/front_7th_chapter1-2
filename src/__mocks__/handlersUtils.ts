@@ -29,6 +29,16 @@ export const setupMockHandlers = (
       mockEvents.push(newEvent);
       return HttpResponse.json(newEvent, { status: 201 });
     }),
+    http.put('/api/events/:id', async ({ params, request }) => {
+      const { id } = params;
+      const updatedEvent = (await request.json()) as Event;
+      const index = mockEvents.findIndex((event) => event.id === id);
+
+      if (index !== -1) {
+        mockEvents[index] = { ...mockEvents[index], ...updatedEvent };
+      }
+      return HttpResponse.json(mockEvents[index]);
+    }),
     http.delete('/api/events/:id', ({ params }) => {
       // 실패 시나리오 처리
       if (!deleteSuccess) {

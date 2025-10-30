@@ -4,7 +4,19 @@ import { server } from '../setupTests';
 import { Event } from '../types';
 
 // ! Hard 여기 제공 안함
-export const setupMockHandlerCreation = (initEvents = [] as Event[]) => {
+/**
+ * 이벤트 관련 Mock API 핸들러를 설정합니다.
+ * GET, POST, DELETE 요청을 처리합니다.
+ *
+ * @param initEvents - 초기 이벤트 배열
+ * @param options - 핸들러 동작 옵션
+ * @param options.deleteSuccess - DELETE 요청 성공 여부 (기본: true)
+ */
+export const setupMockHandlers = (
+  initEvents = [] as Event[],
+  options: { deleteSuccess?: boolean } = {}
+) => {
+  const { deleteSuccess = true } = options;
   const mockEvents: Event[] = [...initEvents];
 
   server.use(
@@ -18,6 +30,12 @@ export const setupMockHandlerCreation = (initEvents = [] as Event[]) => {
       return HttpResponse.json(newEvent, { status: 201 });
     }),
     http.delete('/api/events/:id', ({ params }) => {
+      // 실패 시나리오 처리
+      if (!deleteSuccess) {
+        return new HttpResponse(null, { status: 500 });
+      }
+
+      // 성공 시나리오
       const { id } = params;
       const index = mockEvents.findIndex((event) => event.id === id);
       if (index !== -1) {
@@ -27,6 +45,9 @@ export const setupMockHandlerCreation = (initEvents = [] as Event[]) => {
     })
   );
 };
+
+// 기존 함수명 유지 (하위 호환성)
+export const setupMockHandlerCreation = setupMockHandlers;
 
 export const setupMockHandlerUpdating = () => {
   const mockEvents: Event[] = [

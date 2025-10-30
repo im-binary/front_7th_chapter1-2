@@ -1,7 +1,7 @@
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
-import { Event, EventForm } from '../types';
+import { Event, EventForm, RepeatType } from '../types';
 
 // API 엔드포인트 상수
 const API_BASE_URL = '/api/events';
@@ -10,6 +10,9 @@ const API_BASE_URL = '/api/events';
 const JSON_HEADERS = {
   'Content-Type': 'application/json',
 };
+
+// 반복 타입 상수
+const REPEAT_TYPE = { NONE: 'none' as RepeatType } as const;
 
 // 스낵바 메시지 상수
 const SNACKBAR_MESSAGES = {
@@ -145,7 +148,7 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
         ...eventToUpdate,
         repeat: {
           ...eventToUpdate.repeat,
-          type: 'none' as const,
+          type: REPEAT_TYPE.NONE,
         },
       };
 
@@ -172,7 +175,7 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
         event.startTime === referenceEvent.startTime &&
         event.endTime === referenceEvent.endTime &&
         event.repeat.type === referenceEvent.repeat.type &&
-        event.repeat.type !== 'none'
+        event.repeat.type !== REPEAT_TYPE.NONE
     );
   };
 

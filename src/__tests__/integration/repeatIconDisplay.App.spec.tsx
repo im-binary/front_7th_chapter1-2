@@ -33,7 +33,7 @@ describe('반복 일정 아이콘 표시 기능', () => {
   });
 
   describe('주간 캘린더 뷰', () => {
-    it('TC001: 주간 캘린더 뷰에서 반복 일정이 Material-UI Repeat 아이콘으로 표시되는지 확인', async () => {
+    it('주간 캘린더 뷰에서 반복 일정이 Material-UI Repeat 아이콘으로 표시되는지 확인', async () => {
       // Given: 반복 일정이 있고, 알림이 설정되지 않은 상태
       vi.setSystemTime(new Date('2025-10-01'));
 
@@ -77,7 +77,7 @@ describe('반복 일정 아이콘 표시 기능', () => {
       expect(notificationIcons).toHaveLength(0);
     });
 
-    it('TC002: 주간 캘린더 뷰에서 반복 일정이면서 알림 설정된 경우 Repeat 및 Notification 아이콘이 정렬되어 표시되는지 확인', async () => {
+    it('주간 캘린더 뷰에서 반복 일정이면서 알림 설정된 경우 Repeat 및 Notification 아이콘이 정렬되어 표시되는지 확인', async () => {
       // Given: 반복 일정이면서 알림도 설정된 상태
       // 시스템 시간: 2025-10-02 13:50 (일정 시작 10분 전)
       vi.setSystemTime(new Date('2025-10-02T13:50:00'));
@@ -136,7 +136,7 @@ describe('반복 일정 아이콘 표시 기능', () => {
       ).toBeInTheDocument();
     });
 
-    it('TC003: 주간 캘린더 뷰에서 반복 일정이 아닌 경우 Repeat 아이콘이 표시되지 않는지 확인', async () => {
+    it('주간 캘린더 뷰에서 반복 일정이 아닌 경우 Repeat 아이콘이 표시되지 않는지 확인', async () => {
       // Given: 반복이 아닌 일정 (repeat.type === 'none')
       vi.setSystemTime(new Date('2025-10-02'));
 
@@ -180,7 +180,7 @@ describe('반복 일정 아이콘 표시 기능', () => {
   });
 
   describe('월간 캘린더 뷰', () => {
-    it('TC004: 월간 캘린더 뷰에서 반복 일정이 Material-UI Repeat 아이콘으로 표시되는지 확인', async () => {
+    it('월간 캘린더 뷰에서 반복 일정이 Material-UI Repeat 아이콘으로 표시되는지 확인', async () => {
       // Given: 반복 일정이 있고, 알림이 설정되지 않은 상태
       vi.setSystemTime(new Date('2025-10-02'));
 
@@ -224,7 +224,7 @@ describe('반복 일정 아이콘 표시 기능', () => {
       expect(notificationIcons).toHaveLength(0);
     });
 
-    it('TC005: 월간 캘린더 뷰에서 반복 일정이면서 알림 설정된 경우 Repeat 및 Notification 아이콘이 정렬되어 표시되는지 확인', async () => {
+    it('월간 캘린더 뷰에서 반복 일정이면서 알림 설정된 경우 Repeat 및 Notification 아이콘이 정렬되어 표시되는지 확인', async () => {
       // Given: 반복 일정이면서 알림도 설정된 상태
       // 시스템 시간: 2025-10-25 15:50 (일정 시작 10분 전)
       vi.setSystemTime(new Date('2025-10-25T15:50:00'));
@@ -283,7 +283,7 @@ describe('반복 일정 아이콘 표시 기능', () => {
       ).toBeInTheDocument();
     });
 
-    it('TC006: 월간 캘린더 뷰에서 반복 일정이 아닌 경우 Repeat 아이콘이 표시되지 않는지 확인', async () => {
+    it('월간 캘린더 뷰에서 반복 일정이 아닌 경우 Repeat 아이콘이 표시되지 않는지 확인', async () => {
       // Given: 반복이 아닌 일정
       const mockEvents: Event[] = [
         {
@@ -323,7 +323,7 @@ describe('반복 일정 아이콘 표시 기능', () => {
   });
 
   describe('일정 목록', () => {
-    it('TC007: 일정 목록에서 반복 일정이 Material-UI Repeat 아이콘으로 표시되는지 확인', async () => {
+    it('일정 목록에서 반복 일정이 Material-UI Repeat 아이콘으로 표시되는지 확인', async () => {
       // Given: 반복 일정이 있고, 알림이 설정되지 않은 상태
       const mockEvents: Event[] = [
         {
@@ -359,7 +359,7 @@ describe('반복 일정 아이콘 표시 기능', () => {
       expect(notificationIcons).toHaveLength(0);
     });
 
-    it('TC008: 일정 목록에서 반복 일정이면서 알림 설정된 경우 Repeat 및 Notification 아이콘이 정렬되고 색상 구분이 되는지 확인', async () => {
+    it('일정 목록에서 반복 일정이면서 알림 설정된 경우 Repeat 및 Notification 아이콘이 정렬되고 색상 구분이 되는지 확인', async () => {
       // Given: 반복 일정이면서 알림도 설정된 상태
       // 시스템 시간: 2025-10-06 14:50 (일정 시작 10분 전)
       vi.setSystemTime(new Date('2025-10-06T14:50:00'));
@@ -407,7 +407,7 @@ describe('반복 일정 아이콘 표시 기능', () => {
       expect(notificationIcon).toHaveClass('MuiSvgIcon-colorError');
     });
 
-    it('TC009: 일정 목록에서 반복 일정이 아닌 경우 Repeat 아이콘이 표시되지 않는지 확인', async () => {
+    it('일정 목록에서 반복 일정이 아닌 경우 Repeat 아이콘이 표시되지 않는지 확인', async () => {
       // Given: 반복이 아닌 일정
       const mockEvents: Event[] = [
         {

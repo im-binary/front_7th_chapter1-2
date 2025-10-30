@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { EventForm } from '../../types';
 import { generateRecurringEvents } from '../../utils/recurrenceUtils';
 
-describe('TC005: generateRecurringEvents 함수 - 매일 반복 일정 생성', () => {
+describe('generateRecurringEvents 함수 - 매일 반복 일정 생성', () => {
   it('매일 반복 유형으로 올바른 일정을 생성한다', () => {
     // Given: 매일 반복 설정
     const baseEvent: Omit<EventForm, 'id'> = {
@@ -82,7 +82,7 @@ describe('TC005: generateRecurringEvents 함수 - 매일 반복 일정 생성', 
   });
 });
 
-describe('TC006: generateRecurringEvents 함수 - 매월 반복 31일 특수 케이스', () => {
+describe('generateRecurringEvents 함수 - 매월 반복 31일 특수 케이스', () => {
   it('매월 반복에서 31일 특수 케이스를 올바르게 처리한다', () => {
     // Given: 31일로 시작하는 매월 반복
     const baseEvent: Omit<EventForm, 'id'> = {
@@ -140,7 +140,7 @@ describe('TC006: generateRecurringEvents 함수 - 매월 반복 31일 특수 케
   });
 });
 
-describe('TC007: generateRecurringEvents 함수 - 매년 반복 2월 29일 특수 케이스', () => {
+describe('generateRecurringEvents 함수 - 매년 반복 2월 29일 특수 케이스', () => {
   it('매년 반복에서 윤년 2월 29일 특수 케이스를 올바르게 처리한다', () => {
     // Given: 윤년 2월 29일로 시작하는 매년 반복
     const baseEvent: Omit<EventForm, 'id'> = {

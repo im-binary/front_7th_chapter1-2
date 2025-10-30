@@ -26,7 +26,7 @@ const setup = (element: ReactElement) => {
 };
 
 describe('App - 반복 일정 수정 다이얼로그', () => {
-  it('TC001: 반복 일정 수정 버튼 클릭 시 범위 선택 다이얼로그 표시되어야 함', async () => {
+  it('반복 일정 수정 버튼 클릭 시 범위 선택 다이얼로그 표시되어야 함', async () => {
     // Given: 독립적인 mock 설정 - 반복 일정 포함
     setupMockHandlerCreation([
       {
@@ -90,7 +90,7 @@ describe('App - 반복 일정 수정 다이얼로그', () => {
     }
   });
 
-  it('TC002: 일반 일정 수정 버튼 클릭 시 다이얼로그 없이 바로 폼 열려야 함', async () => {
+  it('일반 일정 수정 버튼 클릭 시 다이얼로그 없이 바로 폼 열려야 함', async () => {
     // Given: 캘린더에 일반 일정이 표시되어 있음
     setupMockHandlerCreation();
     vi.setSystemTime('2025-11-01');
@@ -140,7 +140,7 @@ describe('App - 반복 일정 수정 다이얼로그', () => {
     expect(titleInForm.value).toBe('일반 일정 테스트');
   });
 
-  it('TC003: 다이얼로그에서 "예 (이 일정만)" 선택 시 단일 수정 모드로 폼 열려야 함', async () => {
+  it('다이얼로그에서 "예 (이 일정만)" 선택 시 단일 수정 모드로 폼 열려야 함', async () => {
     // Given: 독립적인 mock 설정 - 반복 일정 포함
     setupMockHandlerCreation([
       {
@@ -204,7 +204,7 @@ describe('App - 반복 일정 수정 다이얼로그', () => {
     }
   });
 
-  it('TC004: 다이얼로그에서 "아니오 (모든 일정)" 선택 시 전체 수정 모드로 폼 열려야 함', async () => {
+  it('다이얼로그에서 "아니오 (모든 일정)" 선택 시 전체 수정 모드로 폼 열려야 함', async () => {
     // Given: 독립적인 mock 설정 - 반복 일정 포함
     setupMockHandlerCreation([
       {
@@ -270,7 +270,7 @@ describe('App - 반복 일정 수정 다이얼로그', () => {
 });
 
 describe('App - addOrUpdateEvent 함수 분기 로직', () => {
-  it('TC006: addOrUpdateEvent에서 일반 일정 수정 시 saveEvent 호출되어야 함', async () => {
+  it('addOrUpdateEvent에서 일반 일정 수정 시 saveEvent 호출되어야 함', async () => {
     // Given: 독립적인 mock 설정
     setupMockHandlerCreation();
     vi.setSystemTime('2025-11-01');
@@ -306,7 +306,7 @@ describe('App - addOrUpdateEvent 함수 분기 로직', () => {
     expect(eventList.getByText('일반 일정')).toBeInTheDocument();
   });
 
-  it('TC007: addOrUpdateEvent에서 반복 일정 단일 수정 시 updateSingleRecurringEvent 호출되어야 함', async () => {
+  it('addOrUpdateEvent에서 반복 일정 단일 수정 시 updateSingleRecurringEvent 호출되어야 함', async () => {
     // Given: 독립적인 mock 설정 - 반복 일정 포함
     setupMockHandlerCreation([
       {
@@ -374,7 +374,7 @@ describe('App - addOrUpdateEvent 함수 분기 로직', () => {
     }
   });
 
-  it('TC008: addOrUpdateEvent에서 반복 일정 전체 수정 시 updateAllRecurringEvents 호출되어야 함', async () => {
+  it('addOrUpdateEvent에서 반복 일정 전체 수정 시 updateAllRecurringEvents 호출되어야 함', async () => {
     // Given: 독립적인 mock 설정 - 반복 일정 포함
     setupMockHandlerCreation([
       {

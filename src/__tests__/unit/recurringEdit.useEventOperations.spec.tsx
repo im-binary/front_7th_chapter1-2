@@ -11,8 +11,8 @@ const wrapper = ({ children }: { children: ReactNode }) => (
   <SnackbarProvider>{children}</SnackbarProvider>
 );
 
-describe('useEventOperations - 반복 일정 수정 (TC009, TC010)', () => {
-  it('TC009: updateSingleRecurringEvent - 단일 일정만 수정하고 반복 그룹에서 분리', async () => {
+describe('useEventOperations - 반복 일정 수정', () => {
+  it('updateSingleRecurringEvent - 단일 일정만 수정하고 반복 그룹에서 분리', async () => {
     // Given: 3개의 반복 일정이 존재
     const recurringEvents = createRecurringEventGroup(3);
     setupMockHandlers(recurringEvents);
@@ -57,7 +57,7 @@ describe('useEventOperations - 반복 일정 수정 (TC009, TC010)', () => {
     });
   });
 
-  it('TC010: updateAllRecurringEvents - 반복 그룹 전체를 수정하고 날짜는 유지', async () => {
+  it('updateAllRecurringEvents - 반복 그룹 전체를 수정하고 날짜는 유지', async () => {
     // Given: 3개의 반복 일정이 존재
     vi.setSystemTime(new Date('2025-10-01'));
     const recurringEvents = createRecurringEventGroup(3);

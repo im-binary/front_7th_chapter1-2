@@ -31,7 +31,7 @@ const setup = (element: ReactElement) => {
 };
 
 describe('App - 반복 일정 삭제 다이얼로그', () => {
-  it('TC001: 반복 일정 삭제 버튼 클릭 시 다이얼로그 표시', async () => {
+  it('반복 일정 삭제 버튼 클릭 시 다이얼로그 표시', async () => {
     // Given: 반복 일정이 렌더링된 상태
     setupMockHandlerCreation([createMockEvent()]);
 
@@ -60,7 +60,7 @@ describe('App - 반복 일정 삭제 다이얼로그', () => {
     expect(screen.getByRole('button', { name: /아니오.*모든 일정/i })).toBeInTheDocument();
   });
 
-  it('TC002: 단일 일정 삭제 버튼 클릭 시 다이얼로그 없이 즉시 삭제', async () => {
+  it('단일 일정 삭제 버튼 클릭 시 다이얼로그 없이 즉시 삭제', async () => {
     // Given: 단일 일정이 렌더링된 상태
     setupMockHandlerCreation([createSingleEvent({ title: '단일 회의' })]);
 
@@ -86,7 +86,7 @@ describe('App - 반복 일정 삭제 다이얼로그', () => {
     await screen.findByText('일정이 삭제되었습니다.', {}, { timeout: 2000 });
   });
 
-  it('TC003: 다이얼로그에서 "예 (이 일정만)" 클릭 시 해당 일정만 삭제', async () => {
+  it('다이얼로그에서 "예 (이 일정만)" 클릭 시 해당 일정만 삭제', async () => {
     // Given: 반복 일정 그룹이 렌더링된 상태
     setupMockHandlerCreation(createRecurringEventGroup(3));
 
@@ -120,7 +120,7 @@ describe('App - 반복 일정 삭제 다이얼로그', () => {
     });
   });
 
-  it('TC004: 단일 반복 일정 삭제 API 호출 실패 시 에러 처리', async () => {
+  it('단일 반복 일정 삭제 API 호출 실패 시 에러 처리', async () => {
     // Given: 반복 일정이 렌더링된 상태, API 호출이 실패하도록 설정
     setupMockHandlerCreation([createMockEvent()], { deleteSuccess: false });
 
@@ -152,7 +152,7 @@ describe('App - 반복 일정 삭제 다이얼로그', () => {
     });
   });
 
-  it('TC005: 다이얼로그에서 "아니오 (모든 일정)" 클릭 시 모든 반복 일정 삭제', async () => {
+  it('다이얼로그에서 "아니오 (모든 일정)" 클릭 시 모든 반복 일정 삭제', async () => {
     // Given: 반복 일정 그룹이 렌더링된 상태
     setupMockHandlerCreation(createRecurringEventGroup(3));
 
@@ -190,7 +190,7 @@ describe('App - 반복 일정 삭제 다이얼로그', () => {
     });
   });
 
-  it('TC006: 모든 반복 일정 삭제 API 호출 실패 시 에러 처리', async () => {
+  it('모든 반복 일정 삭제 API 호출 실패 시 에러 처리', async () => {
     // Given: 반복 일정이 렌더링된 상태, API 호출이 실패하도록 설정
     setupMockHandlerCreation([createMockEvent()], { deleteSuccess: false });
 
@@ -222,7 +222,7 @@ describe('App - 반복 일정 삭제 다이얼로그', () => {
     });
   });
 
-  it('TC007: 다이얼로그 외부 클릭 또는 ESC 키 입력 시 다이얼로그 닫기', async () => {
+  it('다이얼로그 외부 클릭 또는 ESC 키 입력 시 다이얼로그 닫기', async () => {
     // Given: 반복 일정 삭제 다이얼로그가 열려있는 상태
     setupMockHandlerCreation([createMockEvent()]);
 

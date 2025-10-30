@@ -26,7 +26,7 @@ const setup = (element: ReactElement) => {
   };
 };
 
-describe('TC008: 반복 일정 UI - repeatEndDate 최대값 제한', () => {
+describe('반복 일정 UI - repeatEndDate 최대값 제한', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -51,7 +51,7 @@ describe('TC008: 반복 일정 UI - repeatEndDate 최대값 제한', () => {
   });
 });
 
-describe('TC009: 반복 일정 저장 - 여러 이벤트 생성 및 스낵바 1회 표시', () => {
+describe('반복 일정 저장 - 여러 이벤트 생성 및 스낵바 1회 표시', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -121,7 +121,7 @@ describe('TC009: 반복 일정 저장 - 여러 이벤트 생성 및 스낵바 1�
   });
 });
 
-describe('TC010: 반복 일정 저장 - 일정 겹침 확인 건너뛰기', () => {
+describe('반복 일정 저장 - 일정 겹침 확인 건너뛰기', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -190,7 +190,7 @@ describe('TC010: 반복 일정 저장 - 일정 겹침 확인 건너뛰기', () =
   });
 });
 
-describe('TC011: saveEvent 함수 - showSnackbar 파라미터 동작', () => {
+describe('saveEvent 함수 - showSnackbar 파라미터 동작', () => {
   it('saveEvent와 saveMultipleEvents의 스낵바 표시 동작이 올바르다', async () => {
     // Given: 일정 추가 폼
     const { user } = setup(<App />);
@@ -274,7 +274,7 @@ describe('TC011: saveEvent 함수 - showSnackbar 파라미터 동작', () => {
   });
 });
 
-describe('TC012: 단일 일정 생성 - 반복 일정이 아닐 경우 기존 겹침 검사 로직이 유지된다', () => {
+describe('단일 일정 생성 - 반복 일정이 아닐 경우 기존 겹침 검사 로직이 유지된다', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });

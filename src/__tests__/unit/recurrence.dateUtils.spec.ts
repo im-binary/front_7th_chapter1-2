@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 
 import { addDays, addMonths, addYears, isLeapYear } from '../../utils/dateUtils';
 
-describe('TC001: isLeapYear 함수 - 윤년 정확히 판단', () => {
+describe('isLeapYear 함수 - 윤년 정확히 판단', () => {
   it('2000년은 윤년으로 true를 반환한다', () => {
     // Given: 2000년 (400의 배수)
     const year = 2000;
@@ -48,7 +48,7 @@ describe('TC001: isLeapYear 함수 - 윤년 정확히 판단', () => {
   });
 });
 
-describe('TC002: addDays 함수 - 올바른 날짜 계산', () => {
+describe('addDays 함수 - 올바른 날짜 계산', () => {
   it('2023-01-01에 7일을 더하면 2023-01-08을 반환한다', () => {
     // Given: 2023-01-01 날짜와 7일
     const startDate = new Date('2023-01-01');
@@ -86,7 +86,7 @@ describe('TC002: addDays 함수 - 올바른 날짜 계산', () => {
   });
 });
 
-describe('TC003: addMonths 함수 - 31일 특수 케이스 처리', () => {
+describe('addMonths 함수 - 31일 특수 케이스 처리', () => {
   it('2023-01-31에 1개월을 더하면 2023-02-28을 반환한다', () => {
     // Given: 2023-01-31 (31일) 날짜와 1개월
     const startDate = new Date('2023-01-31');
@@ -124,7 +124,7 @@ describe('TC003: addMonths 함수 - 31일 특수 케이스 처리', () => {
   });
 });
 
-describe('TC004: addYears 함수 - 윤년 29일 특수 케이스 처리', () => {
+describe('addYears 함수 - 윤년 29일 특수 케이스 처리', () => {
   it('2024-02-29에 1년을 더하면 2025-02-28을 반환한다', () => {
     // Given: 2024-02-29 (윤년) 날짜와 1년
     const startDate = new Date('2024-02-29');

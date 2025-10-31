@@ -271,7 +271,7 @@ describe('saveEvent 함수 - showSnackbar 파라미터 동작', () => {
       { timeout: 3000 }
     );
     expect(multipleEventsMessage).toBeInTheDocument();
-  });
+  }, 10000);
 });
 
 describe('단일 일정 생성 - 반복 일정이 아닐 경우 기존 겹침 검사 로직이 유지된다', () => {

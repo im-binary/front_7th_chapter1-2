@@ -793,7 +793,7 @@ function App() {
           <DialogContentText>
             다음 일정과 겹칩니다:
             {overlappingEvents.map((event) => (
-              <Typography key={event.id}>
+              <Typography key={event.id} component="div">
                 {event.title} ({event.date} {event.startTime}-{event.endTime})
               </Typography>
             ))}
